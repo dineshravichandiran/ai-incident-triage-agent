@@ -65,3 +65,11 @@ def test_make_backend_requires_what_it_needs(monkeypatch):
     with pytest.raises(SystemExit):
         make_backend("ollama")
     assert make_backend("rules").name == "rules-baseline"
+
+
+def test_the_adapter_template_follows_the_contract():
+    import subprocess
+    from pathlib import Path
+    template = Path(__file__).parent.parent / "examples" / "adapter_template.py"
+    r = CommandBackend(f"{sys.executable} {template}").complete_json("s", "p", ANSWER_SCHEMA)
+    assert validate_answer(r.data)["cause_category"] == "unknown"

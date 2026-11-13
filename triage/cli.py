@@ -35,7 +35,17 @@ def main(argv=None) -> int:
         t.add_argument("--mode", default="filtered", choices=["filtered", "raw"])
         t.add_argument("--yes", action="store_true", help="answer yes to the approval question")
     sub.add_parser("audit", help="print the audit log")
+    w = sub.add_parser("watch", help="print alerts firing on the grafana-observability-stack exporter")
+    w.add_argument("--url", default="http://localhost:9105/metrics")
     args = p.parse_args(argv)
+
+    if args.cmd == "watch":
+        from .exporter_source import fetch_alerts
+        alerts = fetch_alerts(args.url)
+        for a in alerts:
+            print(f"[alert] {a['name']} ({a['severity']}) on {a['service']}: {a['metric']} = {a['value']} (threshold {a['threshold']})")
+        print(f"{len(alerts)} alert(s) firing")
+        return 0
 
     state, incidents = LabState(), all_incidents()
     if args.cmd == "list":

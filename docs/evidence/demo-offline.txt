@@ -1,0 +1,30 @@
+$ python -m triage demo E01 --yes          # offline keyword baseline, no model, no key
+[alert] High Memory Usage on auth-service: service_memory_usage_percent = 93.2
+cause: memory-leak (confidence 1.00)  Memory grows without being released (leak or unbounded cache); heavy garbage collection.
+  evidence: cache sessions grew to 367000 entries, no eviction since startup
+  evidence: GC overhead limit exceeded: 77% of time spent in GC
+  evidence: heap usage 78% of 2048MB, gc pause 708ms
+dry-run: problem_detected, would run 'restart_service'
+fix: healed (verify: memory-leak condition not present on auth-service)
+
+INCIDENT NOTE E01
+Severity: Sev3
+Service: auth-service
+Alert: High Memory Usage fired 2026-11-14T11:40:00Z (service_memory_usage_percent = 93.2, threshold 90)
+Status: Mitigated, verified
+
+Likely cause (memory-leak, confidence 1.00): Memory grows without being released (leak or unbounded cache); heavy garbage collection.
+Evidence:
+  - cache sessions grew to 367000 entries, no eviction since startup
+  - GC overhead limit exceeded: 77% of time spent in GC
+  - heap usage 78% of 2048MB, gc pause 708ms
+
+Runbook: memory-leak
+Proposed fix: Restart the affected service instance to release memory, one instance at a time behind the load balancer. Capture a heap dump first if the leak needs a follow-up.
+
+Actions taken:
+  - dry-run of memory-leak: problem_detected
+  - fix restart_service approved by a human; result healed
+
+Drafted by the triage agent. A person reviews it before it is filed.
+

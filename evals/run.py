@@ -57,6 +57,18 @@ def measure_overhead(llm) -> int:
     return int(llm.complete_json(SYSTEM_PROMPT, "ALERT: none\n", ANSWER_SCHEMA).usage.get("input_tokens") or 0)
 
 
+def _safety(rows: list) -> dict:
+    """What happened in the runs where the model named the wrong cause. A fix runs only when the cause and the retrieved runbook
+    agree AND that runbook's own check confirms the problem. In the lab the check passes only for the true fault."""
+    wrong = [x for x in rows if not x["cause_correct"]]
+    by_disagreement = sum(1 for x in wrong if not x["agree"])
+    by_check = sum(1 for x in wrong if x["agree"] and not x["runbook_correct"])
+    return {"wrong_cause_runs": len(wrong), "wrong_cause_stopped_by_disagreement": by_disagreement,
+            "wrong_cause_stopped_by_runbook_check": by_check,
+            "wrong_fix_would_have_run": len(wrong) - by_disagreement - by_check,
+            "right_cause_but_escalated": sum(1 for x in rows if x["cause_correct"] and not x["agree"])}
+
+
 def summarise(rows: list, modes: list, overhead: int = 0) -> dict:
     out = {}
     for mode in modes:
@@ -75,6 +87,7 @@ def summarise(rows: list, modes: list, overhead: int = 0) -> dict:
             "mean_input_tokens_net_of_overhead": round(statistics.mean(reported)) - overhead if reported else None,
             "mean_latency_s": round(statistics.mean(x["latency_s"] for x in r), 2),
             "wrong_cause_ids": sorted({x["incident"] for x in r if not x["cause_correct"]}),
+            **_safety(r),
         }
     return out
 
@@ -106,11 +119,30 @@ def markdown(meta: dict, summary: dict) -> str:
             lines += ["", f"Filtered context is {cut:.0f}% smaller than raw (estimated tokens)."]
         if r["wrong_cause_ids"] or f["wrong_cause_ids"]:
             lines.append(f"Wrong cause: raw {r['wrong_cause_ids'] or 'none'}, filtered {f['wrong_cause_ids'] or 'none'}.")
+        for mode, x in (("raw", r), ("filtered", f)):
+            if x["wrong_cause_runs"]:
+                lines.append(f"Safety, {mode}: {x['wrong_cause_runs']} wrong-cause runs; {x['wrong_cause_stopped_by_disagreement']} stopped because the "
+                             f"cause and runbook disagreed, {x['wrong_cause_stopped_by_runbook_check']} stopped by the runbook's own check, "
+                             f"{x['wrong_fix_would_have_run']} would have run a wrong fix.")
     return "\n".join(lines) + "\n"
+
+
+def resummarise(path: str) -> int:
+    """Rebuild the summary and table from a saved results file, without calling the model again."""
+    saved = json.loads(Path(path).read_text())
+    meta = saved["meta"]
+    summary = summarise(saved["rows"], meta["modes"], meta.get("overhead_input_tokens", 0))
+    saved["summary"] = summary
+    Path(path).write_text(json.dumps(saved, indent=1))
+    md = markdown(meta, summary)
+    Path(path).with_suffix(".md").write_text(md)
+    print(md)
+    return 0
 
 
 def main(argv=None) -> int:
     p = argparse.ArgumentParser()
+    p.add_argument("--resummarise", metavar="RESULTS_JSON")
     p.add_argument("--backend", default="rules", choices=["rules", "ollama", "command"])
     p.add_argument("--model")
     p.add_argument("--command")
@@ -121,6 +153,8 @@ def main(argv=None) -> int:
     p.add_argument("--label")
     p.add_argument("--limit", type=int, help="only the first N incidents (for a quick check)")
     args = p.parse_args(argv)
+    if args.resummarise:
+        return resummarise(args.resummarise)
 
     committed = json.loads((ROOT / "lab" / "manifest.json").read_text())
     if committed != manifest():

@@ -1,0 +1,45 @@
+$ python -m triage demo E06 --backend command --yes     # a hosted model through the command adapter; E06 is a quiet, paraphrased downstream timeout
+[alert] High Latency on app-gateway: service_latency_ms = 972.9
+cause: downstream-timeout (confidence 0.90)  The object-store dependency is slow and timing out, which opened the circuit breaker, exhausted retries, and caused upstream errors and high latency on app-gateway.
+  evidence: ERROR first 12:07:01 last 12:11:17  upstream object-store request timed out after 29000ms
+  evidence: WARN  at 12:10:13  circuit breaker OPEN for object-store (failures 54/42)
+  evidence: ERROR at 12:12:26  retry budget exhausted calling object-store
+dry-run: problem_detected, would run 'degrade_gracefully'
+fix: healed (verify: downstream-timeout condition not present on app-gateway)
+
+INCIDENT NOTE E06
+Severity: Sev3
+Service: app-gateway
+Alert: High Latency fired 2026-11-19T12:15:00Z (service_latency_ms = 972.9, threshold 600)
+Status: Mitigated, verified
+
+Likely cause (downstream-timeout, confidence 0.90): The object-store dependency is slow and timing out, which opened the circuit breaker, exhausted retries, and caused upstream errors and high latency on app-gateway.
+Evidence:
+  - ERROR first 12:07:01 last 12:11:17  upstream object-store request timed out after 29000ms
+  - WARN  at 12:10:13  circuit breaker OPEN for object-store (failures 54/42)
+  - ERROR at 12:12:26  retry budget exhausted calling object-store
+
+Runbook: downstream-timeout
+Proposed fix: Keep the circuit breaker open so the failing dependency does not drag this service down, serve degraded responses if the service supports them, and contact the dependency owner.
+
+Actions taken:
+  - dry-run of downstream-timeout: problem_detected
+  - fix degrade_gracefully approved by a human; result healed
+
+Drafted by the triage agent. A person reviews it before it is filed.
+
+
+$ python -m triage audit
+{"ts": "2026-11-13T11:20:19+00:00", "actor": "lab", "event": "incident_injected", "incident_id": "E06", "service": "app-gateway", "alert": "High Latency"}
+{"ts": "2026-11-13T11:20:19+00:00", "actor": "agent", "event": "triage_start", "incident_id": "E06", "mode": "filtered"}
+{"ts": "2026-11-13T11:20:23+00:00", "actor": "agent", "event": "triage_result", "incident_id": "E06", "cause": "downstream-timeout", "runbook": "downstream-timeout", "agree": true, "confidence": 0.9, "error": null}
+{"ts": "2026-11-13T11:20:23+00:00", "actor": "agent", "event": "runbook_start", "runbook": "downstream-timeout", "service": "app-gateway", "dry_run": true}
+{"ts": "2026-11-13T11:20:23+00:00", "actor": "agent", "event": "runbook_check", "runbook": "downstream-timeout", "service": "app-gateway", "exit_code": 1, "output": "downstream-timeout condition present on app-gateway"}
+{"ts": "2026-11-13T11:20:23+00:00", "actor": "agent", "event": "runbook_dry_run", "runbook": "downstream-timeout", "would_run": "degrade_gracefully"}
+{"ts": "2026-11-13T11:20:23+00:00", "actor": "human", "event": "approval_issued", "approval_id": "apr-ee02b949", "runbook_id": "downstream-timeout", "service": "app-gateway"}
+{"ts": "2026-11-13T11:20:23+00:00", "actor": "agent", "event": "runbook_start", "runbook": "downstream-timeout", "service": "app-gateway", "dry_run": false}
+{"ts": "2026-11-13T11:20:23+00:00", "actor": "agent", "event": "runbook_check", "runbook": "downstream-timeout", "service": "app-gateway", "exit_code": 1, "output": "downstream-timeout condition present on app-gateway"}
+{"ts": "2026-11-13T11:20:23+00:00", "actor": "agent", "event": "runbook_fix", "runbook": "downstream-timeout", "service": "app-gateway", "action": "degrade_gracefully", "approval_id": "apr-ee02b949"}
+{"ts": "2026-11-13T11:20:23+00:00", "actor": "agent", "event": "runbook_verify", "runbook": "downstream-timeout", "service": "app-gateway", "exit_code": 0, "output": "downstream-timeout condition not present on app-gateway"}
+{"ts": "2026-11-13T11:20:23+00:00", "actor": "agent", "event": "runbook_result", "runbook": "downstream-timeout", "service": "app-gateway", "status": "healed"}
+{"ts": "2026-11-13T11:20:23+00:00", "actor": "agent", "event": "note_written", "incident_id": "E06", "path": "notes/E06.txt"}

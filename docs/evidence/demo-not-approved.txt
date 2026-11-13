@@ -1,0 +1,41 @@
+$ python -m triage demo E01              # no terminal to ask on, so the approval question counts as "no"
+[alert] High Memory Usage on auth-service: service_memory_usage_percent = 93.2
+cause: memory-leak (confidence 1.00)  Memory grows without being released (leak or unbounded cache); heavy garbage collection.
+  evidence: cache sessions grew to 367000 entries, no eviction since startup
+  evidence: GC overhead limit exceeded: 77% of time spent in GC
+  evidence: heap usage 78% of 2048MB, gc pause 708ms
+dry-run: problem_detected, would run 'restart_service'
+Run the fix for memory-leak on auth-service? (Restart the affected service instance to release memory, one instance at a time behind the load balancer. Capture a heap dump first if the leak needs a follow-up.)
+  (no terminal to ask on, so this counts as 'no'. Use --yes to approve.)
+not approved: note only, no action
+
+INCIDENT NOTE E01
+Severity: Sev3
+Service: auth-service
+Alert: High Memory Usage fired 2026-11-14T11:40:00Z (service_memory_usage_percent = 93.2, threshold 90)
+Status: Awaiting a human decision
+
+Likely cause (memory-leak, confidence 1.00): Memory grows without being released (leak or unbounded cache); heavy garbage collection.
+Evidence:
+  - cache sessions grew to 367000 entries, no eviction since startup
+  - GC overhead limit exceeded: 77% of time spent in GC
+  - heap usage 78% of 2048MB, gc pause 708ms
+
+Runbook: memory-leak
+Proposed fix: Restart the affected service instance to release memory, one instance at a time behind the load balancer. Capture a heap dump first if the leak needs a follow-up.
+
+Actions taken:
+  - dry-run of memory-leak: problem_detected
+  - fix proposed, not approved; no action taken
+
+Drafted by the triage agent. A person reviews it before it is filed.
+
+
+$ python -m triage audit
+{"ts": "2026-11-13T11:20:15+00:00", "actor": "lab", "event": "incident_injected", "incident_id": "E01", "service": "auth-service", "alert": "High Memory Usage"}
+{"ts": "2026-11-13T11:20:15+00:00", "actor": "agent", "event": "triage_start", "incident_id": "E01", "mode": "filtered"}
+{"ts": "2026-11-13T11:20:15+00:00", "actor": "agent", "event": "triage_result", "incident_id": "E01", "cause": "memory-leak", "runbook": "memory-leak", "agree": true, "confidence": 1.0, "error": null}
+{"ts": "2026-11-13T11:20:15+00:00", "actor": "agent", "event": "runbook_start", "runbook": "memory-leak", "service": "auth-service", "dry_run": true}
+{"ts": "2026-11-13T11:20:15+00:00", "actor": "agent", "event": "runbook_check", "runbook": "memory-leak", "service": "auth-service", "exit_code": 1, "output": "memory-leak condition present on auth-service"}
+{"ts": "2026-11-13T11:20:15+00:00", "actor": "agent", "event": "runbook_dry_run", "runbook": "memory-leak", "would_run": "restart_service"}
+{"ts": "2026-11-13T11:20:15+00:00", "actor": "agent", "event": "note_written", "incident_id": "E01", "path": "notes/E01.txt"}
