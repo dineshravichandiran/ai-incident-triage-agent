@@ -1,0 +1,3 @@
+$ python -m triage watch          # against the real exporter from grafana-observability-stack, running locally on :9105
+[alert] High Error Rate (critical) on Notification Service: service_error_rate_percent = 20.42 (threshold 15.0)
+1 alert(s) firing
