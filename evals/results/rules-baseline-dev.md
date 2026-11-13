@@ -1,6 +1,6 @@
 ### rules-baseline-dev
 
-Backend: `rules-baseline` · set: dev (10 incidents) · repeats: 1 · 2026-11-13 · code ed6259b
+Backend: `rules-baseline` · set: dev (10 incidents) · repeats: 1 · 2026-11-13 · code ff68c7b
 
 | Context | Cause correct | Right runbook | Quoted lines not in context | Mean input tokens (reported) | Same, minus fixed overhead | Mean latency |
 |---|---|---|---|---|---|---|

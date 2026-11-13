@@ -10,7 +10,7 @@
    "filtered"
   ],
   "date": "2026-11-13",
-  "git_sha": "ed6259b",
+  "git_sha": "ff68c7b",
   "overhead_input_tokens": 0
  },
  "summary": {
@@ -24,7 +24,7 @@
    "mean_context_tokens_est": 11331,
    "mean_input_tokens_reported": null,
    "mean_input_tokens_net_of_overhead": null,
-   "mean_latency_s": 0.0,
+   "mean_latency_s": 0.01,
    "wrong_cause_ids": [
     "E02",
     "E03",
@@ -396,7 +396,7 @@
    "context_tokens_est": 12176,
    "input_tokens_reported": null,
    "output_tokens_reported": null,
-   "latency_s": 0.0,
+   "latency_s": 0.02,
    "error": null
   },
   {
@@ -448,7 +448,7 @@
    "context_tokens_est": 12572,
    "input_tokens_reported": null,
    "output_tokens_reported": null,
-   "latency_s": 0.01,
+   "latency_s": 0.0,
    "error": null
   },
   {
@@ -523,7 +523,7 @@
    "context_tokens_est": 701,
    "input_tokens_reported": null,
    "output_tokens_reported": null,
-   "latency_s": 0.0,
+   "latency_s": 0.02,
    "error": null
   },
   {
@@ -750,7 +750,7 @@
    "context_tokens_est": 10329,
    "input_tokens_reported": null,
    "output_tokens_reported": null,
-   "latency_s": 0.03,
+   "latency_s": 0.0,
    "error": null
   },
   {
@@ -802,7 +802,7 @@
    "context_tokens_est": 12931,
    "input_tokens_reported": null,
    "output_tokens_reported": null,
-   "latency_s": 0.0,
+   "latency_s": 0.04,
    "error": null
   },
   {
@@ -902,7 +902,7 @@
    "context_tokens_est": 11288,
    "input_tokens_reported": null,
    "output_tokens_reported": null,
-   "latency_s": 0.0,
+   "latency_s": 0.02,
    "error": null
   },
   {
@@ -1081,7 +1081,7 @@
    "context_tokens_est": 662,
    "input_tokens_reported": null,
    "output_tokens_reported": null,
-   "latency_s": 0.0,
+   "latency_s": 0.01,
    "error": null
   }
  ]
