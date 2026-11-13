@@ -1,0 +1,18 @@
+id: config-error
+title: Invalid configuration loaded
+applies_to:
+  alert_types: [Service Down, High Error Rate]
+  severities: [warning, critical]
+symptoms: config reload failed, invalid value for a configuration key, refusing to start because configuration validation failed, falling back to last good config
+steps:
+  - id: diagnose
+    kind: diagnose
+    text: Read the validation error to find the key and line that is wrong. Compare the live configuration with the last known-good version.
+  - id: fix
+    kind: fix
+    text: Revert the configuration to the last known-good version and reload the service. Do not edit values by hand on the host.
+    action: revert_config
+  - id: verify
+    kind: verify
+    text: Confirm the service starts and reloads cleanly with no validation errors. Open a follow-up to add config validation before deploy.
+check: config-error

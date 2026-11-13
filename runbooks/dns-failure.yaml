@@ -1,0 +1,18 @@
+id: dns-failure
+title: Name resolution failing
+applies_to:
+  alert_types: [High Error Rate, High Latency]
+  severities: [warning, critical]
+symptoms: no such host, lookup failed, temporary failure in name resolution, resolver timeout, cannot find dependency by name, NXDOMAIN, ENOTFOUND, SERVFAIL, getaddrinfo failures, DNS server misbehaving
+steps:
+  - id: diagnose
+    kind: diagnose
+    text: Resolve the failing name from the affected host. Check the resolver address in use and whether other hosts can resolve the same name.
+  - id: fix
+    kind: fix
+    text: Point the service at a working resolver or flush the stale resolver cache, then restart the resolver client. If the zone record is missing, escalate to the DNS owner.
+    action: reset_resolver
+  - id: verify
+    kind: verify
+    text: Confirm the names resolve and the lookup errors stop. Open a follow-up for resolver redundancy.
+check: dns-failure

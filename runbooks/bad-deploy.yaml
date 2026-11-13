@@ -1,0 +1,18 @@
+id: bad-deploy
+title: New release is failing requests
+applies_to:
+  alert_types: [High Error Rate]
+  severities: [critical]
+symptoms: errors started after a release, the same unhandled exception on every request, stack traces naming a new build version, internal server errors on one handler, NullPointerException or KeyError
+steps:
+  - id: diagnose
+    kind: diagnose
+    text: Confirm the errors carry the new build version and began at the rollout time. Check that older instances running the previous build are healthy.
+  - id: fix
+    kind: fix
+    text: Roll back to the previous known-good build. Do not attempt a hot fix during the incident.
+    action: rollback_release
+  - id: verify
+    kind: verify
+    text: Confirm the exception stops and the error rate returns to baseline on the previous build. Open a follow-up to fix the release before it is deployed again.
+check: bad-deploy

@@ -1,0 +1,18 @@
+id: downstream-timeout
+title: Dependency slow or unreachable
+applies_to:
+  alert_types: [High Latency, High Error Rate]
+  severities: [warning, critical]
+symptoms: upstream request timed out, calls to a dependency take too long, circuit breaker open, retry budget exhausted, latency high because the dependency is slow
+steps:
+  - id: diagnose
+    kind: diagnose
+    text: Identify which dependency the timeouts point to and check its own health. Confirm the problem is the dependency, not this service or the network path to it.
+  - id: fix
+    kind: fix
+    text: Keep the circuit breaker open so the failing dependency does not drag this service down, serve degraded responses if the service supports them, and contact the dependency owner.
+    action: degrade_gracefully
+  - id: verify
+    kind: verify
+    text: Confirm timeouts stop once the dependency recovers and the breaker closes. Open a follow-up for timeouts and fallbacks.
+check: downstream-timeout

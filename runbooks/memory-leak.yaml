@@ -1,0 +1,18 @@
+id: memory-leak
+title: Memory growing without release (leak or unbounded cache)
+applies_to:
+  alert_types: [High Memory Usage, High Latency]
+  severities: [warning, critical]
+symptoms: memory usage climbs and stays high, garbage collection takes a growing share of time, heap near its limit, caches growing with no eviction, out of memory errors
+steps:
+  - id: diagnose
+    kind: diagnose
+    text: Confirm heap usage and garbage-collection time are rising together. Check whether any in-process cache or session store has grown without eviction since the last restart.
+  - id: fix
+    kind: fix
+    text: Restart the affected service instance to release memory, one instance at a time behind the load balancer. Capture a heap dump first if the leak needs a follow-up.
+    action: restart_service
+  - id: verify
+    kind: verify
+    text: Confirm memory settles at the normal baseline and garbage-collection time drops. Open a follow-up to fix the leak or add a cache size limit.
+check: memory-leak

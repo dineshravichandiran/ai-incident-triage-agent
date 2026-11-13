@@ -1,0 +1,18 @@
+id: disk-full
+title: Filesystem out of space
+applies_to:
+  alert_types: [Disk Almost Full, High Error Rate]
+  severities: [warning, critical]
+symptoms: no space left on device, writes failing, log rotation failing, filesystem usage near 100 percent, temp files cannot be created
+steps:
+  - id: diagnose
+    kind: diagnose
+    text: Find which filesystem is full and which directory holds the space, usually unrotated logs or temp files. Confirm the application is failing on writes.
+  - id: fix
+    kind: fix
+    text: Free space by compressing or removing rotated logs and stale temp files, then force a log rotation. Do not delete files the application still holds open.
+    action: free_disk_space
+  - id: verify
+    kind: verify
+    text: Confirm filesystem usage is back under the threshold and write errors stop. Open a follow-up to fix the rotation policy or add a disk alert earlier.
+check: disk-full

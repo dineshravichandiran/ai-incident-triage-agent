@@ -1,0 +1,18 @@
+id: quota-exceeded
+title: Upstream rate limit or quota exceeded
+applies_to:
+  alert_types: [High Error Rate]
+  severities: [warning, critical]
+symptoms: 429 Too Many Requests from an upstream provider, quota exceeded, Retry-After header, requests rejected for rate limiting
+steps:
+  - id: diagnose
+    kind: diagnose
+    text: Confirm the 429 responses come from one upstream provider and compare the call rate to the limit in the response. Check for a retry storm making it worse.
+  - id: fix
+    kind: fix
+    text: Reduce the call rate, enable client-side backoff that honours Retry-After, and request a higher quota from the provider if the traffic is legitimate.
+    action: throttle_client
+  - id: verify
+    kind: verify
+    text: Confirm 429 responses stop and the error rate recovers. Open a follow-up to add rate limiting on our side.
+check: quota-exceeded

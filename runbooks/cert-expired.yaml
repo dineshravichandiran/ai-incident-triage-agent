@@ -1,0 +1,18 @@
+id: cert-expired
+title: TLS certificate expired
+applies_to:
+  alert_types: [High Error Rate]
+  severities: [critical]
+symptoms: TLS handshake failed, x509 certificate has expired, failed to verify certificate, secure connections to a dependency rejected
+steps:
+  - id: diagnose
+    kind: diagnose
+    text: Check the expiry date of the certificate presented by the dependency or held by this service. Confirm every handshake failure names the same expired certificate.
+  - id: fix
+    kind: fix
+    text: Renew or replace the expired certificate and reload the service so it picks up the new one. Never disable certificate verification as a workaround.
+    action: renew_certificate
+  - id: verify
+    kind: verify
+    text: Confirm handshakes succeed and the error rate drops. Open a follow-up to add certificate-expiry monitoring.
+check: cert-expired

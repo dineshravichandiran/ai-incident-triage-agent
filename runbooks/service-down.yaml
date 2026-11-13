@@ -1,0 +1,18 @@
+id: service-down
+title: Service process crashed or was killed
+applies_to:
+  alert_types: [Service Down]
+  severities: [critical]
+symptoms: process exited unexpectedly, killed by signal, connection refused on the service port, supervisor reports the service is not running, health checks failing, no traffic served
+steps:
+  - id: diagnose
+    kind: diagnose
+    text: Check the exit code and signal in the last log lines. Exit 137 means the process was killed, often for memory. Confirm the health check is failing and no config error is involved.
+  - id: fix
+    kind: fix
+    text: Start the service through its supervisor and confirm it stays up for a few minutes. If it dies again straight away, stop and escalate instead of restarting in a loop.
+    action: restart_service
+  - id: verify
+    kind: verify
+    text: Confirm the health check passes and the request rate returns to normal. Open a follow-up for the crash cause.
+check: service-down

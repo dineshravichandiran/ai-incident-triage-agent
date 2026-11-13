@@ -1,0 +1,427 @@
+[
+ {
+  "id": "D01",
+  "seed": 1,
+  "service": "auth-service",
+  "alert": "High Memory Usage",
+  "cause": "memory-leak",
+  "flags": [
+   "style:classic",
+   "weak-decoy"
+  ],
+  "log_lines": 517,
+  "sha256_16": "3cc1efcbf88c64bc"
+ },
+ {
+  "id": "D02",
+  "seed": 2,
+  "service": "search-index",
+  "alert": "Disk Almost Full",
+  "cause": "disk-full",
+  "flags": [
+   "style:paraphrase",
+   "quiet",
+   "consequence"
+  ],
+  "log_lines": 489,
+  "sha256_16": "e0daca90cc983018"
+ },
+ {
+  "id": "D03",
+  "seed": 3,
+  "service": "cdn-edge",
+  "alert": "Service Down",
+  "cause": "service-down",
+  "flags": [
+   "style:mixed",
+   "quiet",
+   "weak-decoy",
+   "old-burst",
+   "old-burst-large"
+  ],
+  "log_lines": 480,
+  "sha256_16": "d13aa9c4d2225a9b"
+ },
+ {
+  "id": "D04",
+  "seed": 4,
+  "service": "billing-api",
+  "alert": "High Latency",
+  "cause": "db-pool-exhausted",
+  "flags": [
+   "style:classic",
+   "old-burst"
+  ],
+  "log_lines": 544,
+  "sha256_16": "a555e4aa4b6ef3ab"
+ },
+ {
+  "id": "D05",
+  "seed": 5,
+  "service": "notification-service",
+  "alert": "High Error Rate",
+  "cause": "bad-deploy",
+  "flags": [
+   "style:paraphrase",
+   "weak-decoy"
+  ],
+  "log_lines": 496,
+  "sha256_16": "9636f7bad893e818"
+ },
+ {
+  "id": "D06",
+  "seed": 6,
+  "service": "app-gateway",
+  "alert": "High Latency",
+  "cause": "downstream-timeout",
+  "flags": [
+   "style:mixed",
+   "quiet",
+   "consequence"
+  ],
+  "log_lines": 493,
+  "sha256_16": "118fda00f8bd2a7a"
+ },
+ {
+  "id": "D07",
+  "seed": 7,
+  "service": "order-processing",
+  "alert": "High Error Rate",
+  "cause": "cert-expired",
+  "flags": [
+   "style:classic",
+   "quiet",
+   "weak-decoy",
+   "old-burst",
+   "old-burst-large"
+  ],
+  "log_lines": 527,
+  "sha256_16": "9722e77a39d94302"
+ },
+ {
+  "id": "D08",
+  "seed": 8,
+  "service": "database-cluster",
+  "alert": "High Error Rate",
+  "cause": "dns-failure",
+  "flags": [
+   "style:paraphrase",
+   "consequence",
+   "old-burst"
+  ],
+  "log_lines": 541,
+  "sha256_16": "379e12f624faad52"
+ },
+ {
+  "id": "D09",
+  "seed": 9,
+  "service": "auth-service",
+  "alert": "High Error Rate",
+  "cause": "quota-exceeded",
+  "flags": [
+   "style:mixed",
+   "consequence",
+   "weak-decoy"
+  ],
+  "log_lines": 535,
+  "sha256_16": "12d3d2b306a35562"
+ },
+ {
+  "id": "D10",
+  "seed": 10,
+  "service": "search-index",
+  "alert": "Service Down",
+  "cause": "config-error",
+  "flags": [
+   "style:classic",
+   "quiet"
+  ],
+  "log_lines": 424,
+  "sha256_16": "9bc617a273577fe8"
+ },
+ {
+  "id": "E01",
+  "seed": 100,
+  "service": "auth-service",
+  "alert": "High Memory Usage",
+  "cause": "memory-leak",
+  "flags": [
+   "style:classic",
+   "weak-decoy"
+  ],
+  "log_lines": 534,
+  "sha256_16": "c17906f61871d3c6"
+ },
+ {
+  "id": "E02",
+  "seed": 101,
+  "service": "search-index",
+  "alert": "Disk Almost Full",
+  "cause": "disk-full",
+  "flags": [
+   "style:paraphrase",
+   "quiet",
+   "consequence"
+  ],
+  "log_lines": 500,
+  "sha256_16": "35410a3e644103ad"
+ },
+ {
+  "id": "E03",
+  "seed": 102,
+  "service": "cdn-edge",
+  "alert": "Service Down",
+  "cause": "service-down",
+  "flags": [
+   "style:mixed",
+   "quiet",
+   "weak-decoy",
+   "old-burst",
+   "old-burst-large"
+  ],
+  "log_lines": 484,
+  "sha256_16": "09e7e39ff5aad207"
+ },
+ {
+  "id": "E04",
+  "seed": 103,
+  "service": "billing-api",
+  "alert": "High Latency",
+  "cause": "db-pool-exhausted",
+  "flags": [
+   "style:classic",
+   "old-burst"
+  ],
+  "log_lines": 519,
+  "sha256_16": "7d89d622d8a9ca61"
+ },
+ {
+  "id": "E05",
+  "seed": 104,
+  "service": "notification-service",
+  "alert": "High Error Rate",
+  "cause": "bad-deploy",
+  "flags": [
+   "style:paraphrase",
+   "weak-decoy"
+  ],
+  "log_lines": 522,
+  "sha256_16": "5759c361b436d8ab"
+ },
+ {
+  "id": "E06",
+  "seed": 105,
+  "service": "app-gateway",
+  "alert": "High Latency",
+  "cause": "downstream-timeout",
+  "flags": [
+   "style:mixed",
+   "quiet",
+   "consequence"
+  ],
+  "log_lines": 486,
+  "sha256_16": "721d81b434b947b7"
+ },
+ {
+  "id": "E07",
+  "seed": 106,
+  "service": "order-processing",
+  "alert": "High Error Rate",
+  "cause": "cert-expired",
+  "flags": [
+   "style:classic",
+   "quiet",
+   "weak-decoy",
+   "old-burst",
+   "old-burst-large"
+  ],
+  "log_lines": 534,
+  "sha256_16": "8e6f36b05b4ac4d6"
+ },
+ {
+  "id": "E08",
+  "seed": 107,
+  "service": "database-cluster",
+  "alert": "High Error Rate",
+  "cause": "dns-failure",
+  "flags": [
+   "style:paraphrase",
+   "consequence",
+   "old-burst"
+  ],
+  "log_lines": 562,
+  "sha256_16": "9d7abf61d4bb95aa"
+ },
+ {
+  "id": "E09",
+  "seed": 108,
+  "service": "auth-service",
+  "alert": "High Error Rate",
+  "cause": "quota-exceeded",
+  "flags": [
+   "style:mixed",
+   "consequence",
+   "weak-decoy"
+  ],
+  "log_lines": 518,
+  "sha256_16": "86c8ff952df95c2a"
+ },
+ {
+  "id": "E10",
+  "seed": 109,
+  "service": "search-index",
+  "alert": "Service Down",
+  "cause": "config-error",
+  "flags": [
+   "style:classic",
+   "quiet"
+  ],
+  "log_lines": 431,
+  "sha256_16": "93b3db397954bad0"
+ },
+ {
+  "id": "E11",
+  "seed": 110,
+  "service": "cdn-edge",
+  "alert": "High Latency",
+  "cause": "memory-leak",
+  "flags": [
+   "style:paraphrase",
+   "quiet",
+   "consequence",
+   "weak-decoy",
+   "old-burst",
+   "old-burst-large"
+  ],
+  "log_lines": 568,
+  "sha256_16": "630557ec310dc2d7"
+ },
+ {
+  "id": "E12",
+  "seed": 111,
+  "service": "billing-api",
+  "alert": "High Error Rate",
+  "cause": "disk-full",
+  "flags": [
+   "style:mixed",
+   "consequence",
+   "old-burst"
+  ],
+  "log_lines": 562,
+  "sha256_16": "e9f5003e121c0417"
+ },
+ {
+  "id": "E13",
+  "seed": 112,
+  "service": "notification-service",
+  "alert": "Service Down",
+  "cause": "service-down",
+  "flags": [
+   "style:classic",
+   "weak-decoy"
+  ],
+  "log_lines": 484,
+  "sha256_16": "bf7acb3d7fe85df0"
+ },
+ {
+  "id": "E14",
+  "seed": 113,
+  "service": "app-gateway",
+  "alert": "High Error Rate",
+  "cause": "db-pool-exhausted",
+  "flags": [
+   "style:paraphrase",
+   "quiet",
+   "consequence"
+  ],
+  "log_lines": 493,
+  "sha256_16": "59bde36b35cad98e"
+ },
+ {
+  "id": "E15",
+  "seed": 114,
+  "service": "order-processing",
+  "alert": "High Error Rate",
+  "cause": "bad-deploy",
+  "flags": [
+   "style:mixed",
+   "quiet",
+   "weak-decoy",
+   "old-burst",
+   "old-burst-large"
+  ],
+  "log_lines": 574,
+  "sha256_16": "6919fd4f6bc9d712"
+ },
+ {
+  "id": "E16",
+  "seed": 115,
+  "service": "database-cluster",
+  "alert": "High Error Rate",
+  "cause": "downstream-timeout",
+  "flags": [
+   "style:classic",
+   "old-burst"
+  ],
+  "log_lines": 546,
+  "sha256_16": "55a066a35ef97765"
+ },
+ {
+  "id": "E17",
+  "seed": 116,
+  "service": "auth-service",
+  "alert": "High Error Rate",
+  "cause": "cert-expired",
+  "flags": [
+   "style:paraphrase",
+   "consequence",
+   "weak-decoy"
+  ],
+  "log_lines": 522,
+  "sha256_16": "c16f007a1467d6f9"
+ },
+ {
+  "id": "E18",
+  "seed": 117,
+  "service": "search-index",
+  "alert": "High Latency",
+  "cause": "dns-failure",
+  "flags": [
+   "style:mixed",
+   "quiet",
+   "consequence"
+  ],
+  "log_lines": 500,
+  "sha256_16": "56ffa5975f9f1273"
+ },
+ {
+  "id": "E19",
+  "seed": 118,
+  "service": "cdn-edge",
+  "alert": "High Error Rate",
+  "cause": "quota-exceeded",
+  "flags": [
+   "style:classic",
+   "quiet",
+   "weak-decoy",
+   "old-burst",
+   "old-burst-large"
+  ],
+  "log_lines": 543,
+  "sha256_16": "34b563af4a8450ab"
+ },
+ {
+  "id": "E20",
+  "seed": 119,
+  "service": "billing-api",
+  "alert": "High Error Rate",
+  "cause": "config-error",
+  "flags": [
+   "style:paraphrase",
+   "consequence",
+   "old-burst"
+  ],
+  "log_lines": 549,
+  "sha256_16": "3f32df3b7f7dab60"
+ }
+]

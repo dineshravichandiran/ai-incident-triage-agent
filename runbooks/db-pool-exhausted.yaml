@@ -1,0 +1,18 @@
+id: db-pool-exhausted
+title: Database connection pool exhausted
+applies_to:
+  alert_types: [High Latency, High Error Rate]
+  severities: [warning, critical]
+symptoms: requests wait for a database connection, timeout acquiring connection from the pool, pool size reached, active connections equal pool size, latency high while CPU and memory are normal
+steps:
+  - id: diagnose
+    kind: diagnose
+    text: Confirm the pool is fully in use with requests waiting. Check for long-running queries or transactions that hold connections and never release them.
+  - id: fix
+    kind: fix
+    text: Release stuck connections by restarting the workers that hold them, then raise the pool size only if the database has headroom. Kill any runaway query.
+    action: release_db_connections
+  - id: verify
+    kind: verify
+    text: Confirm connections in use fall below the pool size, nothing is waiting, and latency returns to normal. Open a follow-up to find the query that leaked connections.
+check: db-pool-exhausted
