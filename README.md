@@ -1,5 +1,7 @@
 # AI Incident Triage Agent
 
+[![M8ven Score](https://m8ven.ai/badge/mcp/dineshravichandiran-ai-incident-triage-agent-j6zcpn?v=ce6207d2aad61d70f6160432495a904f)](https://m8ven.ai/mcp/dineshravichandiran-ai-incident-triage-agent-j6zcpn?s=readme)
+
 An alert comes in. The agent filters the logs, names the likely cause, picks the right runbook step, drafts the incident note, and **waits for a person to approve before any fix runs**.
 
 It runs on a synthetic lab with known root causes, so every claim below is measured against ground truth rather than judged by eye.
