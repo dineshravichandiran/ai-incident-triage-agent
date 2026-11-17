@@ -131,3 +131,7 @@ lab/            manifest.json: the frozen data fingerprint
 tests/          56 tests, including attempts to get around the approval gate
 docs/evidence/  real transcripts
 ```
+
+## License
+
+MIT. See [LICENSE](LICENSE).
