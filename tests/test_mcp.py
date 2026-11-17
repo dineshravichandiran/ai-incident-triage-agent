@@ -27,8 +27,14 @@ def test_four_tools_are_listed(tmp_path):
         async with _session(tmp_path) as (r, w):
             async with ClientSession(r, w) as s:
                 await s.initialize()
-                return sorted(t.name for t in (await s.list_tools()).tools)
-    assert asyncio.run(go()) == ["get_alerts", "get_logs", "run_runbook", "write_incident_note"]
+                return (await s.list_tools()).tools
+    tools = asyncio.run(go())
+    assert sorted(t.name for t in tools) == ["get_alerts", "get_logs", "run_runbook", "write_incident_note"]
+    for t in tools:   # every tool declares all four hints as real booleans
+        a = t.annotations
+        assert all(isinstance(getattr(a, h), bool) for h in ("readOnlyHint", "destructiveHint", "idempotentHint", "openWorldHint")), t.name
+    by_name = {t.name: t.annotations for t in tools}
+    assert by_name["get_logs"].readOnlyHint and not by_name["run_runbook"].readOnlyHint and by_name["run_runbook"].destructiveHint
 
 
 def test_only_matching_tools_are_loaded_for_an_alert_type(tmp_path):
