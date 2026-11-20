@@ -42,7 +42,7 @@ python3 -m venv .venv && . .venv/bin/activate
 pip install -r requirements-dev.txt
 python -m triage demo E01 --yes     # alert -> cause -> dry run -> approved fix -> verify -> note
 python -m triage demo E01           # without --yes (or with no terminal) the answer is "no": nothing runs
-python -m pytest -q                 # 56 tests
+python -m pytest -q                 # 72 tests
 ```
 
 The offline backend is a keyword list, **not a language model**. It exists so the project runs anywhere and gives the evaluation something to beat. Real transcripts are in [docs/evidence/](docs/evidence/).
@@ -99,6 +99,22 @@ python -m evals.run --backend ollama --model <your-model> --set eval --repeats 2
 TRIAGE_LLM_CMD="python my_adapter.py" python -m triage demo E04 --backend command --yes
 ```
 
+## Tracing: where the time and tokens go
+
+`--trace` (or `TRIAGE_TRACE=1`) records one trace per incident and one span per step: `context.build`, `llm.call`, `runbook.retrieve`, `runbook.dry_run`, `approval.wait`, `runbook.fix`, `note.write`. Waiting for the human is its own span, so people-time is not mistaken for agent time. Model calls carry the OpenTelemetry GenAI attribute names (`gen_ai.request.model`, `gen_ai.usage.input_tokens`, `gen_ai.usage.output_tokens`). It is off by default and writes nothing when off.
+
+```bash
+python -m triage demo E04 --yes --trace            # spans go to .lab_state/traces.jsonl
+python -m evals.run --backend rules --set eval --trace
+python -m triage trace-report                      # latency per step (mean, p95, max), tokens, errors
+python -m triage trace-report --prices '{"my-model": {"input": 3.0, "output": 15.0}}'   # adds cost
+python -m triage trace-report --otlp-endpoint http://localhost:4318    # send the spans to an OTLP/HTTP backend
+```
+
+- **Cost needs your prices.** No price table is built in, because it would go stale and put a made-up number in the report. Without prices the report says `n/a`.
+- **Tokens appear only for backends that report them** (`ollama`, and `command` adapters that return `usage`). The offline `rules` backend is not a model, so its rows show 0 tokens. See [docs/evidence/tracing-report.txt](docs/evidence/tracing-report.txt) for a real run on it.
+- **What is and is not verified.** The span structure, token and cost arithmetic, error handling, per-thread traces and the OTLP/JSON payload are tested (16 tests), including a real HTTP POST to a local stand-in receiver. I have **not** sent spans to a live tracing backend such as Langfuse or Grafana Tempo, so treat the exporter as untested against a real one.
+
 ## MCP server
 
 Four tools over stdio: `get_alerts`, `get_logs`, `run_runbook` (dry-run by default), `write_incident_note`. Set `TRIAGE_ALERT_TYPE` to load only the tools that fit an alert (`run_runbook` is offered only when a runbook exists for it).
@@ -125,10 +141,11 @@ A real fix needs an approval id issued by a person (the CLI prompt does this); t
 ```
 triage/         lab.py (incident generator)  context.py (filter)  rag.py (chunks + BM25)  llm.py (backends)
                 agent.py (pipeline)  executor.py (check, approve, fix, verify)  tools.py  mcp_server.py  cli.py
+                tracing.py (spans, report, OTLP export)
 runbooks/       10 YAML runbooks: diagnose, fix, verify
 evals/          run.py and the saved results
 lab/            manifest.json: the frozen data fingerprint
-tests/          56 tests, including attempts to get around the approval gate
+tests/          72 tests, including attempts to get around the approval gate
 docs/evidence/  real transcripts
 ```
 

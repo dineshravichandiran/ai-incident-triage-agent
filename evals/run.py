@@ -21,6 +21,7 @@ import sys
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
+from triage import tracing
 from triage.agent import triage
 from triage.lab import dev_set, eval_set, manifest
 from triage.llm import ANSWER_SCHEMA, SYSTEM_PROMPT, make_backend
@@ -152,7 +153,10 @@ def main(argv=None) -> int:
     p.add_argument("--workers", type=int, default=4)
     p.add_argument("--label")
     p.add_argument("--limit", type=int, help="only the first N incidents (for a quick check)")
+    p.add_argument("--trace", action="store_true", help="record a span per step to .lab_state/traces.jsonl")
     args = p.parse_args(argv)
+    if args.trace:
+        tracing.enable()
     if args.resummarise:
         return resummarise(args.resummarise)
 

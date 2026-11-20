@@ -1,0 +1,26 @@
+$ python -m evals.run --backend rules --set eval --repeats 2 --trace
+Backend: `rules-baseline` · set: eval (20 incidents) · repeats: 2 · 2026-11-20 · code 26cb92e
+
+| Context | Cause correct | Right runbook | Quoted lines not in context | Mean input tokens (reported) | Same, minus fixed overhead | Mean latency |
+|---|---|---|---|---|---|---|
+| raw | 18 / 40 | 20 / 40 | 0 of 102 | n/a (est. 11,331) | n/a | 0.0s |
+| filtered | 22 / 40 | 24 / 40 | 0 of 84 | n/a (est. 462) | n/a | 0.0s |
+
+Filtered context is 96% smaller than raw (estimated tokens).
+Wrong cause: raw ['E02', 'E03', 'E05', 'E07', 'E08', 'E11', 'E14', 'E15', 'E18', 'E19', 'E20'], filtered ['E02', 'E03', 'E05', 'E08', 'E11', 'E14', 'E15', 'E18', 'E20'].
+Safety, raw: 22 wrong-cause runs; 10 stopped because the cause and runbook disagreed, 12 stopped by the runbook's own check, 0 would have run a wrong fix.
+Safety, filtered: 18 wrong-cause runs; 14 stopped because the cause and runbook disagreed, 4 stopped by the runbook's own check, 0 would have run a wrong fix.
+
+
+$ python -m triage trace-report
+80 trace(s)
+
+step                   count   mean ms    p95 ms    max ms  errors
+triage                    80     12.86     26.68     36.48       0
+llm.call                  80      1.66      3.75      5.27       0
+context.build             80       0.8      0.98     14.65       0
+runbook.retrieve          64      0.12      0.23      0.25       0
+
+model                        calls    in tok  out tok   mean ms   cost USD
+rules-baseline                  80         0        0      1.66        n/a
+cost is n/a for models with no price set (TRIAGE_PRICES or --prices)

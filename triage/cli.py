@@ -5,6 +5,7 @@ import argparse
 import json
 import sys
 
+from . import tracing
 from .agent import respond, triage
 from .lab import all_incidents
 from .llm import make_backend
@@ -34,10 +35,31 @@ def main(argv=None) -> int:
         t.add_argument("--command")
         t.add_argument("--mode", default="filtered", choices=["filtered", "raw"])
         t.add_argument("--yes", action="store_true", help="answer yes to the approval question")
+        t.add_argument("--trace", action="store_true", help="record a span per step (see `trace-report`)")
     sub.add_parser("audit", help="print the audit log")
+    tr = sub.add_parser("trace-report", help="latency per step, model tokens and cost from recorded traces")
+    tr.add_argument("--file", help="trace file (default .lab_state/traces.jsonl)")
+    tr.add_argument("--prices", help='USD per million tokens, JSON or a file: {"model": {"input": 1.0, "output": 5.0}}')
+    tr.add_argument("--json", action="store_true", help="print the report as JSON")
+    tr.add_argument("--otlp-endpoint", help="also send the spans to an OTLP/HTTP endpoint")
     w = sub.add_parser("watch", help="print alerts firing on the grafana-observability-stack exporter")
     w.add_argument("--url", default="http://localhost:9105/metrics")
     args = p.parse_args(argv)
+
+    if args.cmd == "trace-report":
+        path = args.file or str(tracing.Tracer().path)
+        spans = tracing.load(path)
+        if not spans:
+            print(f"no spans in {path}; run a triage with --trace first")
+            return 1
+        rep = tracing.report(spans, tracing.load_prices(args.prices))
+        print(json.dumps(rep, indent=1) if args.json else tracing.format_report(rep))
+        if args.otlp_endpoint:
+            print(f"sent {len(spans)} span(s) to {args.otlp_endpoint}: HTTP {tracing.export_otlp(spans, args.otlp_endpoint)}")
+        return 0
+
+    if getattr(args, "trace", False):
+        tracing.enable()
 
     if args.cmd == "watch":
         from .exporter_source import fetch_alerts
