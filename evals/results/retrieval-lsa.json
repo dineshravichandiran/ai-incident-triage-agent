@@ -1,0 +1,935 @@
+{
+ "embedder": "lsa",
+ "chunks": 30,
+ "runbooks": 10,
+ "results": {
+  "written, filter on": {
+   "bm25": {
+    "n": 50,
+    "recall@1": 42,
+    "recall@3": 47,
+    "mrr": 0.892,
+    "misses": [
+     {
+      "id": "q06",
+      "want": "cert-expired",
+      "got": [
+       "downstream-timeout",
+       "cert-expired",
+       "config-error"
+      ]
+     },
+     {
+      "id": "q08",
+      "want": "cert-expired",
+      "got": [
+       "bad-deploy",
+       "downstream-timeout",
+       "db-pool-exhausted"
+      ]
+     },
+     {
+      "id": "q12",
+      "want": "config-error",
+      "got": [
+       "downstream-timeout",
+       "config-error",
+       "dns-failure"
+      ]
+     },
+     {
+      "id": "q17",
+      "want": "db-pool-exhausted",
+      "got": [
+       "downstream-timeout",
+       "db-pool-exhausted"
+      ]
+     },
+     {
+      "id": "q26",
+      "want": "dns-failure",
+      "got": [
+       "config-error",
+       "db-pool-exhausted",
+       "dns-failure"
+      ]
+     },
+     {
+      "id": "q31",
+      "want": "downstream-timeout",
+      "got": []
+     },
+     {
+      "id": "q38",
+      "want": "memory-leak",
+      "got": [
+       "dns-failure",
+       "memory-leak"
+      ]
+     },
+     {
+      "id": "q42",
+      "want": "quota-exceeded",
+      "got": [
+       "db-pool-exhausted",
+       "downstream-timeout",
+       "config-error"
+      ]
+     }
+    ]
+   },
+   "dense": {
+    "n": 50,
+    "recall@1": 46,
+    "recall@3": 49,
+    "mrr": 0.947,
+    "misses": [
+     {
+      "id": "q08",
+      "want": "cert-expired",
+      "got": [
+       "config-error",
+       "bad-deploy",
+       "cert-expired"
+      ]
+     },
+     {
+      "id": "q11",
+      "want": "config-error",
+      "got": [
+       "service-down",
+       "config-error"
+      ]
+     },
+     {
+      "id": "q38",
+      "want": "memory-leak",
+      "got": [
+       "db-pool-exhausted",
+       "dns-failure",
+       "memory-leak"
+      ]
+     },
+     {
+      "id": "q42",
+      "want": "quota-exceeded",
+      "got": [
+       "db-pool-exhausted",
+       "downstream-timeout",
+       "config-error"
+      ]
+     }
+    ]
+   },
+   "hybrid": {
+    "n": 50,
+    "recall@1": 46,
+    "recall@3": 49,
+    "mrr": 0.954,
+    "misses": [
+     {
+      "id": "q06",
+      "want": "cert-expired",
+      "got": [
+       "downstream-timeout",
+       "cert-expired",
+       "config-error"
+      ]
+     },
+     {
+      "id": "q08",
+      "want": "cert-expired",
+      "got": [
+       "bad-deploy",
+       "cert-expired",
+       "downstream-timeout"
+      ]
+     },
+     {
+      "id": "q38",
+      "want": "memory-leak",
+      "got": [
+       "dns-failure",
+       "memory-leak",
+       "db-pool-exhausted"
+      ]
+     },
+     {
+      "id": "q42",
+      "want": "quota-exceeded",
+      "got": [
+       "db-pool-exhausted",
+       "downstream-timeout",
+       "config-error"
+      ]
+     }
+    ]
+   }
+  },
+  "written, filter off": {
+   "bm25": {
+    "n": 50,
+    "recall@1": 39,
+    "recall@3": 44,
+    "mrr": 0.846,
+    "misses": [
+     {
+      "id": "q06",
+      "want": "cert-expired",
+      "got": [
+       "downstream-timeout",
+       "cert-expired",
+       "service-down"
+      ]
+     },
+     {
+      "id": "q08",
+      "want": "cert-expired",
+      "got": [
+       "bad-deploy",
+       "downstream-timeout",
+       "db-pool-exhausted"
+      ]
+     },
+     {
+      "id": "q11",
+      "want": "config-error",
+      "got": [
+       "quota-exceeded",
+       "config-error",
+       "disk-full"
+      ]
+     },
+     {
+      "id": "q12",
+      "want": "config-error",
+      "got": [
+       "bad-deploy",
+       "service-down",
+       "downstream-timeout"
+      ]
+     },
+     {
+      "id": "q17",
+      "want": "db-pool-exhausted",
+      "got": [
+       "downstream-timeout",
+       "db-pool-exhausted",
+       "memory-leak"
+      ]
+     },
+     {
+      "id": "q21",
+      "want": "disk-full",
+      "got": [
+       "db-pool-exhausted",
+       "memory-leak",
+       "dns-failure"
+      ]
+     },
+     {
+      "id": "q26",
+      "want": "dns-failure",
+      "got": [
+       "config-error",
+       "db-pool-exhausted",
+       "dns-failure"
+      ]
+     },
+     {
+      "id": "q31",
+      "want": "downstream-timeout",
+      "got": [
+       "bad-deploy",
+       "quota-exceeded"
+      ]
+     },
+     {
+      "id": "q37",
+      "want": "memory-leak",
+      "got": [
+       "service-down",
+       "memory-leak",
+       "db-pool-exhausted"
+      ]
+     },
+     {
+      "id": "q38",
+      "want": "memory-leak",
+      "got": [
+       "quota-exceeded",
+       "service-down",
+       "dns-failure"
+      ]
+     },
+     {
+      "id": "q42",
+      "want": "quota-exceeded",
+      "got": [
+       "db-pool-exhausted",
+       "service-down",
+       "downstream-timeout"
+      ]
+     }
+    ]
+   },
+   "dense": {
+    "n": 50,
+    "recall@1": 40,
+    "recall@3": 46,
+    "mrr": 0.868,
+    "misses": [
+     {
+      "id": "q08",
+      "want": "cert-expired",
+      "got": [
+       "config-error",
+       "bad-deploy",
+       "cert-expired"
+      ]
+     },
+     {
+      "id": "q11",
+      "want": "config-error",
+      "got": [
+       "disk-full",
+       "quota-exceeded",
+       "downstream-timeout"
+      ]
+     },
+     {
+      "id": "q12",
+      "want": "config-error",
+      "got": [
+       "bad-deploy",
+       "config-error",
+       "service-down"
+      ]
+     },
+     {
+      "id": "q13",
+      "want": "config-error",
+      "got": [
+       "disk-full",
+       "config-error",
+       "downstream-timeout"
+      ]
+     },
+     {
+      "id": "q21",
+      "want": "disk-full",
+      "got": [
+       "db-pool-exhausted",
+       "memory-leak",
+       "dns-failure"
+      ]
+     },
+     {
+      "id": "q27",
+      "want": "dns-failure",
+      "got": [
+       "bad-deploy",
+       "dns-failure",
+       "cert-expired"
+      ]
+     },
+     {
+      "id": "q31",
+      "want": "downstream-timeout",
+      "got": [
+       "bad-deploy",
+       "downstream-timeout",
+       "dns-failure"
+      ]
+     },
+     {
+      "id": "q38",
+      "want": "memory-leak",
+      "got": [
+       "service-down",
+       "quota-exceeded",
+       "db-pool-exhausted"
+      ]
+     },
+     {
+      "id": "q42",
+      "want": "quota-exceeded",
+      "got": [
+       "db-pool-exhausted",
+       "service-down",
+       "downstream-timeout"
+      ]
+     },
+     {
+      "id": "q46",
+      "want": "service-down",
+      "got": [
+       "downstream-timeout",
+       "db-pool-exhausted",
+       "service-down"
+      ]
+     }
+    ]
+   },
+   "hybrid": {
+    "n": 50,
+    "recall@1": 42,
+    "recall@3": 47,
+    "mrr": 0.892,
+    "misses": [
+     {
+      "id": "q06",
+      "want": "cert-expired",
+      "got": [
+       "downstream-timeout",
+       "cert-expired",
+       "config-error"
+      ]
+     },
+     {
+      "id": "q08",
+      "want": "cert-expired",
+      "got": [
+       "bad-deploy",
+       "cert-expired",
+       "downstream-timeout"
+      ]
+     },
+     {
+      "id": "q11",
+      "want": "config-error",
+      "got": [
+       "quota-exceeded",
+       "disk-full",
+       "config-error"
+      ]
+     },
+     {
+      "id": "q12",
+      "want": "config-error",
+      "got": [
+       "bad-deploy",
+       "service-down",
+       "config-error"
+      ]
+     },
+     {
+      "id": "q21",
+      "want": "disk-full",
+      "got": [
+       "db-pool-exhausted",
+       "memory-leak",
+       "dns-failure"
+      ]
+     },
+     {
+      "id": "q31",
+      "want": "downstream-timeout",
+      "got": [
+       "bad-deploy",
+       "quota-exceeded",
+       "downstream-timeout"
+      ]
+     },
+     {
+      "id": "q38",
+      "want": "memory-leak",
+      "got": [
+       "quota-exceeded",
+       "service-down",
+       "dns-failure"
+      ]
+     },
+     {
+      "id": "q42",
+      "want": "quota-exceeded",
+      "got": [
+       "db-pool-exhausted",
+       "service-down",
+       "downstream-timeout"
+      ]
+     }
+    ]
+   }
+  },
+  "written, everyday words only, filter off": {
+   "bm25": {
+    "n": 30,
+    "recall@1": 19,
+    "recall@3": 24,
+    "mrr": 0.743,
+    "misses": [
+     {
+      "id": "q06",
+      "want": "cert-expired",
+      "got": [
+       "downstream-timeout",
+       "cert-expired",
+       "service-down"
+      ]
+     },
+     {
+      "id": "q08",
+      "want": "cert-expired",
+      "got": [
+       "bad-deploy",
+       "downstream-timeout",
+       "db-pool-exhausted"
+      ]
+     },
+     {
+      "id": "q11",
+      "want": "config-error",
+      "got": [
+       "quota-exceeded",
+       "config-error",
+       "disk-full"
+      ]
+     },
+     {
+      "id": "q12",
+      "want": "config-error",
+      "got": [
+       "bad-deploy",
+       "service-down",
+       "downstream-timeout"
+      ]
+     },
+     {
+      "id": "q17",
+      "want": "db-pool-exhausted",
+      "got": [
+       "downstream-timeout",
+       "db-pool-exhausted",
+       "memory-leak"
+      ]
+     },
+     {
+      "id": "q21",
+      "want": "disk-full",
+      "got": [
+       "db-pool-exhausted",
+       "memory-leak",
+       "dns-failure"
+      ]
+     },
+     {
+      "id": "q26",
+      "want": "dns-failure",
+      "got": [
+       "config-error",
+       "db-pool-exhausted",
+       "dns-failure"
+      ]
+     },
+     {
+      "id": "q31",
+      "want": "downstream-timeout",
+      "got": [
+       "bad-deploy",
+       "quota-exceeded"
+      ]
+     },
+     {
+      "id": "q37",
+      "want": "memory-leak",
+      "got": [
+       "service-down",
+       "memory-leak",
+       "db-pool-exhausted"
+      ]
+     },
+     {
+      "id": "q38",
+      "want": "memory-leak",
+      "got": [
+       "quota-exceeded",
+       "service-down",
+       "dns-failure"
+      ]
+     },
+     {
+      "id": "q42",
+      "want": "quota-exceeded",
+      "got": [
+       "db-pool-exhausted",
+       "service-down",
+       "downstream-timeout"
+      ]
+     }
+    ]
+   },
+   "dense": {
+    "n": 30,
+    "recall@1": 20,
+    "recall@3": 26,
+    "mrr": 0.78,
+    "misses": [
+     {
+      "id": "q08",
+      "want": "cert-expired",
+      "got": [
+       "config-error",
+       "bad-deploy",
+       "cert-expired"
+      ]
+     },
+     {
+      "id": "q11",
+      "want": "config-error",
+      "got": [
+       "disk-full",
+       "quota-exceeded",
+       "downstream-timeout"
+      ]
+     },
+     {
+      "id": "q12",
+      "want": "config-error",
+      "got": [
+       "bad-deploy",
+       "config-error",
+       "service-down"
+      ]
+     },
+     {
+      "id": "q13",
+      "want": "config-error",
+      "got": [
+       "disk-full",
+       "config-error",
+       "downstream-timeout"
+      ]
+     },
+     {
+      "id": "q21",
+      "want": "disk-full",
+      "got": [
+       "db-pool-exhausted",
+       "memory-leak",
+       "dns-failure"
+      ]
+     },
+     {
+      "id": "q27",
+      "want": "dns-failure",
+      "got": [
+       "bad-deploy",
+       "dns-failure",
+       "cert-expired"
+      ]
+     },
+     {
+      "id": "q31",
+      "want": "downstream-timeout",
+      "got": [
+       "bad-deploy",
+       "downstream-timeout",
+       "dns-failure"
+      ]
+     },
+     {
+      "id": "q38",
+      "want": "memory-leak",
+      "got": [
+       "service-down",
+       "quota-exceeded",
+       "db-pool-exhausted"
+      ]
+     },
+     {
+      "id": "q42",
+      "want": "quota-exceeded",
+      "got": [
+       "db-pool-exhausted",
+       "service-down",
+       "downstream-timeout"
+      ]
+     },
+     {
+      "id": "q46",
+      "want": "service-down",
+      "got": [
+       "downstream-timeout",
+       "db-pool-exhausted",
+       "service-down"
+      ]
+     }
+    ]
+   },
+   "hybrid": {
+    "n": 30,
+    "recall@1": 22,
+    "recall@3": 27,
+    "mrr": 0.821,
+    "misses": [
+     {
+      "id": "q06",
+      "want": "cert-expired",
+      "got": [
+       "downstream-timeout",
+       "cert-expired",
+       "config-error"
+      ]
+     },
+     {
+      "id": "q08",
+      "want": "cert-expired",
+      "got": [
+       "bad-deploy",
+       "cert-expired",
+       "downstream-timeout"
+      ]
+     },
+     {
+      "id": "q11",
+      "want": "config-error",
+      "got": [
+       "quota-exceeded",
+       "disk-full",
+       "config-error"
+      ]
+     },
+     {
+      "id": "q12",
+      "want": "config-error",
+      "got": [
+       "bad-deploy",
+       "service-down",
+       "config-error"
+      ]
+     },
+     {
+      "id": "q21",
+      "want": "disk-full",
+      "got": [
+       "db-pool-exhausted",
+       "memory-leak",
+       "dns-failure"
+      ]
+     },
+     {
+      "id": "q31",
+      "want": "downstream-timeout",
+      "got": [
+       "bad-deploy",
+       "quota-exceeded",
+       "downstream-timeout"
+      ]
+     },
+     {
+      "id": "q38",
+      "want": "memory-leak",
+      "got": [
+       "quota-exceeded",
+       "service-down",
+       "dns-failure"
+      ]
+     },
+     {
+      "id": "q42",
+      "want": "quota-exceeded",
+      "got": [
+       "db-pool-exhausted",
+       "service-down",
+       "downstream-timeout"
+      ]
+     }
+    ]
+   }
+  },
+  "written, shared terms only, filter off": {
+   "bm25": {
+    "n": 20,
+    "recall@1": 20,
+    "recall@3": 20,
+    "mrr": 1.0,
+    "misses": []
+   },
+   "dense": {
+    "n": 20,
+    "recall@1": 20,
+    "recall@3": 20,
+    "mrr": 1.0,
+    "misses": []
+   },
+   "hybrid": {
+    "n": 20,
+    "recall@1": 20,
+    "recall@3": 20,
+    "mrr": 1.0,
+    "misses": []
+   }
+  },
+  "incidents, filter on": {
+   "bm25": {
+    "n": 30,
+    "recall@1": 25,
+    "recall@3": 28,
+    "mrr": 0.891,
+    "misses": [
+     {
+      "id": "D08",
+      "want": "dns-failure",
+      "got": [
+       "bad-deploy",
+       "dns-failure",
+       "downstream-timeout"
+      ]
+     },
+     {
+      "id": "E08",
+      "want": "dns-failure",
+      "got": [
+       "bad-deploy",
+       "downstream-timeout",
+       "quota-exceeded"
+      ]
+     },
+     {
+      "id": "E11",
+      "want": "memory-leak",
+      "got": [
+       "downstream-timeout",
+       "dns-failure",
+       "memory-leak"
+      ]
+     },
+     {
+      "id": "E12",
+      "want": "disk-full",
+      "got": [
+       "bad-deploy",
+       "disk-full",
+       "cert-expired"
+      ]
+     },
+     {
+      "id": "E14",
+      "want": "db-pool-exhausted",
+      "got": [
+       "bad-deploy",
+       "quota-exceeded",
+       "downstream-timeout"
+      ]
+     }
+    ]
+   },
+   "dense": {
+    "n": 30,
+    "recall@1": 25,
+    "recall@3": 29,
+    "mrr": 0.908,
+    "misses": [
+     {
+      "id": "D05",
+      "want": "bad-deploy",
+      "got": [
+       "downstream-timeout",
+       "bad-deploy",
+       "disk-full"
+      ]
+     },
+     {
+      "id": "E05",
+      "want": "bad-deploy",
+      "got": [
+       "downstream-timeout",
+       "bad-deploy",
+       "dns-failure"
+      ]
+     },
+     {
+      "id": "E08",
+      "want": "dns-failure",
+      "got": [
+       "bad-deploy",
+       "dns-failure",
+       "downstream-timeout"
+      ]
+     },
+     {
+      "id": "E14",
+      "want": "db-pool-exhausted",
+      "got": [
+       "bad-deploy",
+       "quota-exceeded",
+       "downstream-timeout"
+      ]
+     },
+     {
+      "id": "E20",
+      "want": "config-error",
+      "got": [
+       "bad-deploy",
+       "config-error",
+       "quota-exceeded"
+      ]
+     }
+    ]
+   },
+   "hybrid": {
+    "n": 30,
+    "recall@1": 24,
+    "recall@3": 29,
+    "mrr": 0.877,
+    "misses": [
+     {
+      "id": "D08",
+      "want": "dns-failure",
+      "got": [
+       "bad-deploy",
+       "dns-failure",
+       "downstream-timeout"
+      ]
+     },
+     {
+      "id": "E08",
+      "want": "dns-failure",
+      "got": [
+       "bad-deploy",
+       "downstream-timeout",
+       "dns-failure"
+      ]
+     },
+     {
+      "id": "E11",
+      "want": "memory-leak",
+      "got": [
+       "downstream-timeout",
+       "dns-failure",
+       "memory-leak"
+      ]
+     },
+     {
+      "id": "E14",
+      "want": "db-pool-exhausted",
+      "got": [
+       "bad-deploy",
+       "quota-exceeded",
+       "downstream-timeout"
+      ]
+     },
+     {
+      "id": "E17",
+      "want": "cert-expired",
+      "got": [
+       "downstream-timeout",
+       "cert-expired",
+       "bad-deploy"
+      ]
+     },
+     {
+      "id": "E20",
+      "want": "config-error",
+      "got": [
+       "bad-deploy",
+       "config-error",
+       "quota-exceeded"
+      ]
+     }
+    ]
+   }
+  }
+ }
+}

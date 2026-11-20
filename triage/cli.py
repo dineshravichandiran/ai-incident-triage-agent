@@ -9,7 +9,7 @@ from . import tracing
 from .agent import respond, triage
 from .lab import all_incidents
 from .llm import make_backend
-from .rag import RunbookIndex
+from .rag import METHODS, RunbookIndex
 from .state import LabState
 
 
@@ -36,6 +36,7 @@ def main(argv=None) -> int:
         t.add_argument("--mode", default="filtered", choices=["filtered", "raw"])
         t.add_argument("--yes", action="store_true", help="answer yes to the approval question")
         t.add_argument("--trace", action="store_true", help="record a span per step (see `trace-report`)")
+        t.add_argument("--retrieval", choices=METHODS, help="runbook ranking: bm25 (default), dense or hybrid; also TRIAGE_RETRIEVAL")
     sub.add_parser("audit", help="print the audit log")
     tr = sub.add_parser("trace-report", help="latency per step, model tokens and cost from recorded traces")
     tr.add_argument("--file", help="trace file (default .lab_state/traces.jsonl)")
@@ -98,6 +99,6 @@ def main(argv=None) -> int:
         return 1
     inc = state.incident(iid)
     llm = make_backend(args.backend, args.model, args.command)
-    out = respond(inc, llm, state, RunbookIndex(), (lambda q: True) if args.yes else _ask, mode=args.mode)
+    out = respond(inc, llm, state, RunbookIndex(method=args.retrieval), (lambda q: True) if args.yes else _ask, mode=args.mode)
     print("\n" + out["note"])
     return 0

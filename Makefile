@@ -1,4 +1,4 @@
-.PHONY: install test demo baseline
+.PHONY: install test demo baseline retrieval
 install:
 	python3 -m venv .venv && .venv/bin/pip install -r requirements-dev.txt
 test:
@@ -7,3 +7,5 @@ demo:
 	.venv/bin/python -m triage demo E01 --yes
 baseline:
 	.venv/bin/python -m evals.run --backend rules --set eval
+retrieval:
+	.venv/bin/python -m evals.retrieval_eval

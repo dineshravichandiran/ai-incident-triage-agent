@@ -115,6 +115,30 @@ python -m triage trace-report --otlp-endpoint http://localhost:4318    # send th
 - **Tokens appear only for backends that report them** (`ollama`, and `command` adapters that return `usage`). The offline `rules` backend is not a model, so its rows show 0 tokens. See [docs/evidence/tracing-report.txt](docs/evidence/tracing-report.txt) for a real run on it.
 - **What is and is not verified.** The span structure, token and cost arithmetic, error handling, per-thread traces and the OTLP/JSON payload are tested (16 tests), including a real HTTP POST to a local stand-in receiver. I have **not** sent spans to a live tracing backend such as Langfuse or Grafana Tempo, so treat the exporter as untested against a real one.
 
+## Retrieval: BM25, embeddings, or both
+
+Runbook steps are ranked by BM25 by default. `--retrieval dense` or `hybrid` (or `TRIAGE_RETRIEVAL`) adds embeddings: `dense` is cosine similarity, `hybrid` fuses the BM25 and dense rankings with reciprocal rank fusion. The embedder is `lsa` by default (TF-IDF plus a truncated SVD in numpy, fitted on the runbooks, fully offline) or a local Ollama model (`ollama:nomic-embed-text`).
+
+```bash
+python -m evals.retrieval_eval                                   # offline LSA
+python -m evals.retrieval_eval --embedder ollama:nomic-embed-text   # needs `ollama pull nomic-embed-text`
+python -m triage demo E04 --yes --retrieval hybrid
+```
+
+Measured with the offline LSA embedder, 50 hand-written queries over 10 runbooks (30 step chunks), ranking the right runbook first (R@1), full table in [evals/results/retrieval-lsa.md](evals/results/retrieval-lsa.md):
+
+| Query set | BM25 | Dense (LSA) | Hybrid |
+|---|---|---|---|
+| Written, metadata filter on (50) | 42 | 46 | 46 |
+| Written, filter off (50) | 39 | 40 | 42 |
+| Written, everyday words only, filter off (30) | 19 | 20 | 22 |
+| Written, shared terms only, filter off (20) | 20 | 20 | 20 |
+| Lab incidents, filter on (30) | 25 | 25 | 24 |
+
+- **What it shows.** Embeddings help a little when the query avoids the runbook's own words, and make no difference when they overlap. On the lab incidents, where the log text and runbooks share an author, hybrid is not better (24 against 25). Through the whole pipeline with the offline rules backend, the right runbook came back 13/20 with hybrid against 12/20 with BM25: one incident, so noise.
+- **Why the gain is small.** LSA only learns from 30 short chunks and does not know English, so a word that never appears in the runbooks adds nothing. A real embedding model should do better on everyday phrasing, but I have **not** run one: the Ollama embedder is tested only against a local stand-in server, and no number here comes from it.
+- **Small, single-author set.** The 50 queries were written by the same person as the runbooks, before the methods were compared, and one query is 2 points. The defaults are unchanged: BM25 stays the default because the evidence does not justify switching.
+
 ## MCP server
 
 Four tools over stdio: `get_alerts`, `get_logs`, `run_runbook` (dry-run by default), `write_incident_note`. Set `TRIAGE_ALERT_TYPE` to load only the tools that fit an alert (`run_runbook` is offered only when a runbook exists for it).
@@ -139,13 +163,13 @@ A real fix needs an approval id issued by a person (the CLI prompt does this); t
 ## Layout
 
 ```
-triage/         lab.py (incident generator)  context.py (filter)  rag.py (chunks + BM25)  llm.py (backends)
+triage/         lab.py (incident generator)  context.py (filter)  rag.py (chunks, BM25, hybrid)  embed.py (LSA, Ollama)  llm.py (backends)
                 agent.py (pipeline)  executor.py (check, approve, fix, verify)  tools.py  mcp_server.py  cli.py
                 tracing.py (spans, report, OTLP export)
 runbooks/       10 YAML runbooks: diagnose, fix, verify
-evals/          run.py and the saved results
+evals/          run.py, retrieval_eval.py, retrieval_queries.yaml and the saved results
 lab/            manifest.json: the frozen data fingerprint
-tests/          72 tests, including attempts to get around the approval gate
+tests/          85 tests, including attempts to get around the approval gate
 docs/evidence/  real transcripts
 ```
 

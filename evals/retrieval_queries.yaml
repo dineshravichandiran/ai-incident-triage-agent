@@ -1,0 +1,119 @@
+# Hand-written retrieval queries: a person describing a problem, and the runbook that should come back.
+#
+# Written once, before any retrieval method was compared on them, by the same person who wrote the
+# runbooks. Five per runbook:
+#   plain      describes the problem in everyday words and avoids the runbook's own vocabulary
+#   overlap    a natural description that shares some terms with the runbook
+# The alert type and severity are ones the runbook applies to, so the metadata filter can be tested too.
+# This is a small, single-author set: it shows whether a method helps on this corpus, not how it
+# would do on someone else's runbooks.
+queries:
+  - {id: q01, runbook: bad-deploy, alert: High Error Rate, severity: critical, style: plain,
+     text: "everything was fine until the new version went out, now one endpoint returns server errors for every call"}
+  - {id: q02, runbook: bad-deploy, alert: High Error Rate, severity: critical, style: plain,
+     text: "the failures line up exactly with the time we pushed the latest build, the older machines still work"}
+  - {id: q03, runbook: bad-deploy, alert: High Error Rate, severity: critical, style: plain,
+     text: "same crash message repeated on each request since the update, mentions the new version number"}
+  - {id: q04, runbook: bad-deploy, alert: High Error Rate, severity: critical, style: overlap,
+     text: "internal server errors after the release, NullPointerException in a stack trace with the new build version"}
+  - {id: q05, runbook: bad-deploy, alert: High Error Rate, severity: critical, style: overlap,
+     text: "errors began at rollout time and only the new build is affected"}
+
+  - {id: q06, runbook: cert-expired, alert: High Error Rate, severity: critical, style: plain,
+     text: "calls to the payment partner are all being refused because their security credential is out of date"}
+  - {id: q07, runbook: cert-expired, alert: High Error Rate, severity: critical, style: plain,
+     text: "encrypted connection to a dependency cannot be set up, the error names a date that has already passed"}
+  - {id: q08, runbook: cert-expired, alert: High Error Rate, severity: critical, style: plain,
+     text: "secure calls started failing at midnight, nothing was deployed"}
+  - {id: q09, runbook: cert-expired, alert: High Error Rate, severity: critical, style: overlap,
+     text: "TLS handshake failed: x509 certificate has expired"}
+  - {id: q10, runbook: cert-expired, alert: High Error Rate, severity: critical, style: overlap,
+     text: "failed to verify certificate for the upstream, secure connection rejected"}
+
+  - {id: q11, runbook: config-error, alert: Service Down, severity: critical, style: plain,
+     text: "someone changed a setting file and now the application will not come up, it keeps complaining about one line"}
+  - {id: q12, runbook: config-error, alert: High Error Rate, severity: warning, style: plain,
+     text: "after the settings were edited the service ignored the change and carried on with the previous settings"}
+  - {id: q13, runbook: config-error, alert: Service Down, severity: warning, style: plain,
+     text: "startup aborted because a value in the settings file is not allowed"}
+  - {id: q14, runbook: config-error, alert: Service Down, severity: critical, style: overlap,
+     text: "refusing to start, configuration validation failed on an invalid value for a key"}
+  - {id: q15, runbook: config-error, alert: High Error Rate, severity: warning, style: overlap,
+     text: "config reload failed, falling back to last good config"}
+
+  - {id: q16, runbook: db-pool-exhausted, alert: High Latency, severity: warning, style: plain,
+     text: "pages are slow but the servers are idle, requests are queuing up waiting for the database"}
+  - {id: q17, runbook: db-pool-exhausted, alert: High Error Rate, severity: critical, style: plain,
+     text: "calls give up after waiting too long to get a link to the data store, all the links are busy"}
+  - {id: q18, runbook: db-pool-exhausted, alert: High Latency, severity: critical, style: plain,
+     text: "slow responses although processor and memory look normal, a query seems to be hogging resources"}
+  - {id: q19, runbook: db-pool-exhausted, alert: High Latency, severity: warning, style: overlap,
+     text: "timeout acquiring connection from the pool, active connections equal pool size"}
+  - {id: q20, runbook: db-pool-exhausted, alert: High Error Rate, severity: warning, style: overlap,
+     text: "database connection pool exhausted, requests waiting for a connection"}
+
+  - {id: q21, runbook: disk-full, alert: Disk Almost Full, severity: critical, style: plain,
+     text: "the machine cannot save anything any more, the storage is practically at the brim"}
+  - {id: q22, runbook: disk-full, alert: High Error Rate, severity: critical, style: plain,
+     text: "the app fails whenever it tries to write a file, old logs were never cleaned up"}
+  - {id: q23, runbook: disk-full, alert: Disk Almost Full, severity: warning, style: plain,
+     text: "volume nearly completely used, scratch files piling up"}
+  - {id: q24, runbook: disk-full, alert: Disk Almost Full, severity: critical, style: overlap,
+     text: "no space left on device and log rotation failing"}
+  - {id: q25, runbook: disk-full, alert: High Error Rate, severity: warning, style: overlap,
+     text: "filesystem usage near 100 percent, writes failing"}
+
+  - {id: q26, runbook: dns-failure, alert: High Error Rate, severity: critical, style: plain,
+     text: "the service cannot work out where its dependencies live, it can reach nothing by hostname"}
+  - {id: q27, runbook: dns-failure, alert: High Latency, severity: warning, style: plain,
+     text: "every outbound call stalls at the start looking up an address, and then fails"}
+  - {id: q28, runbook: dns-failure, alert: High Error Rate, severity: warning, style: plain,
+     text: "calling the same service by its IP address works but using its name does not"}
+  - {id: q29, runbook: dns-failure, alert: High Error Rate, severity: critical, style: overlap,
+     text: "lookup failed: no such host, temporary failure in name resolution"}
+  - {id: q30, runbook: dns-failure, alert: High Latency, severity: critical, style: overlap,
+     text: "getaddrinfo ENOTFOUND and resolver timeout, DNS server misbehaving"}
+
+  - {id: q31, runbook: downstream-timeout, alert: High Latency, severity: warning, style: plain,
+     text: "our own servers are healthy but the partner API we call is answering far too slowly"}
+  - {id: q32, runbook: downstream-timeout, alert: High Error Rate, severity: critical, style: plain,
+     text: "we keep giving up on a backend that does not answer, and the safety switch has stopped sending it traffic"}
+  - {id: q33, runbook: downstream-timeout, alert: High Latency, severity: critical, style: plain,
+     text: "responses are delayed because something we depend on is taking ages to reply"}
+  - {id: q34, runbook: downstream-timeout, alert: High Latency, severity: warning, style: overlap,
+     text: "upstream request timed out, circuit breaker open, retry budget exhausted"}
+  - {id: q35, runbook: downstream-timeout, alert: High Error Rate, severity: warning, style: overlap,
+     text: "calls to the dependency take too long and time out"}
+
+  - {id: q36, runbook: memory-leak, alert: High Memory Usage, severity: warning, style: plain,
+     text: "the process keeps getting bigger over the days and never shrinks, the cleanup work is eating more and more time"}
+  - {id: q37, runbook: memory-leak, alert: High Memory Usage, severity: critical, style: plain,
+     text: "a store of user sessions only grows and nothing ever removes old entries, then the process dies for lack of room"}
+  - {id: q38, runbook: memory-leak, alert: High Latency, severity: warning, style: plain,
+     text: "slowness that gets worse with uptime and goes away after a restart"}
+  - {id: q39, runbook: memory-leak, alert: High Memory Usage, severity: critical, style: overlap,
+     text: "heap near its limit, garbage collection taking a growing share of time, OutOfMemoryError"}
+  - {id: q40, runbook: memory-leak, alert: High Memory Usage, severity: warning, style: overlap,
+     text: "cache growing with no eviction, memory usage climbs and stays high"}
+
+  - {id: q41, runbook: quota-exceeded, alert: High Error Rate, severity: critical, style: plain,
+     text: "the provider is turning us away because we are sending too many calls too quickly"}
+  - {id: q42, runbook: quota-exceeded, alert: High Error Rate, severity: warning, style: plain,
+     text: "a third-party service says we have used up our allowance and asks us to wait before trying again"}
+  - {id: q43, runbook: quota-exceeded, alert: High Error Rate, severity: warning, style: plain,
+     text: "our clients retry in a loop and make the rejections from the vendor even worse"}
+  - {id: q44, runbook: quota-exceeded, alert: High Error Rate, severity: critical, style: overlap,
+     text: "429 Too Many Requests from the upstream provider with a Retry-After header"}
+  - {id: q45, runbook: quota-exceeded, alert: High Error Rate, severity: critical, style: overlap,
+     text: "quota exceeded, requests rejected for rate limiting"}
+
+  - {id: q46, runbook: service-down, alert: Service Down, severity: critical, style: plain,
+     text: "the program just stopped by itself and nobody can reach it, the port is closed"}
+  - {id: q47, runbook: service-down, alert: Service Down, severity: critical, style: plain,
+     text: "the application vanished from the process list, exit status 137 in the last lines"}
+  - {id: q48, runbook: service-down, alert: Service Down, severity: critical, style: plain,
+     text: "no requests are being served at all and the liveness probe fails"}
+  - {id: q49, runbook: service-down, alert: Service Down, severity: critical, style: overlap,
+     text: "process exited unexpectedly, killed by signal, connection refused on the service port"}
+  - {id: q50, runbook: service-down, alert: Service Down, severity: critical, style: overlap,
+     text: "supervisor reports the service is not running and health checks are failing"}
