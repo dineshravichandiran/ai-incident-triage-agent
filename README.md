@@ -42,7 +42,7 @@ python3 -m venv .venv && . .venv/bin/activate
 pip install -r requirements-dev.txt
 python -m triage demo E01 --yes     # alert -> cause -> dry run -> approved fix -> verify -> note
 python -m triage demo E01           # without --yes (or with no terminal) the answer is "no": nothing runs
-python -m pytest -q                 # 72 tests
+python -m pytest -q                 # 85 tests
 ```
 
 The offline backend is a keyword list, **not a language model**. It exists so the project runs anywhere and gives the evaluation something to beat. Real transcripts are in [docs/evidence/](docs/evidence/).
